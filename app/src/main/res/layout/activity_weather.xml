@@ -24,12 +24,13 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/sunny"
-            android:id="@+id/imageView"/>
+            android:id="@+id/weatherIconMini"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/funshine_logo"/>
+            android:src="@drawable/funshine_logo"
+            android:paddingLeft="10dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -44,7 +45,8 @@
             android:layout_height="wrap_content"
             android:text="Today, May 1"
             android:textSize="25dp"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:id="@+id/weatherDate"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,23 +55,28 @@
             android:gravity="bottom">
 
             <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="100dp"
-            android:text="78"
-                android:textColor="#FFFFFF" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="80dp"
+                android:text="78°"
+                android:textColor="#FFFFFF"
+                android:id="@+id/currentTemp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="30dp"
+                android:textSize="28dp"
                 android:text="64"
-                android:textColor="#ffffff" />
+                android:padding="2dp"
+                android:textColor="#ffffff"
+                android:id="@+id/lowTemp"/>
             
             <ImageView
-                android:layout_width="140dp"
-                android:layout_height="140dp"
-                android:src="@drawable/sunny"/>
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:src="@drawable/sunny"
+                android:id="@+id/weatherIcon"
+                android:paddingLeft="10dp"/>
 
         </LinearLayout>
 
@@ -88,16 +95,18 @@
             android:textSize="16dp"
             android:layout_weight="3"
             android:gravity="center_horizontal"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:id="@+id/cityCountry"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Clear"
             android:textSize="16dp"
-            android:layout_weight="3"
+            android:layout_weight="2"
             android:gravity="center_horizontal"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:id="@+id/weatherDescription"/>
 
     </LinearLayout>
 

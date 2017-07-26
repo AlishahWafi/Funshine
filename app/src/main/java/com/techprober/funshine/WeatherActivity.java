@@ -11,6 +11,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -28,7 +30,9 @@ import com.techprober.funshine.model.DailyWeatherReport;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class WeatherActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, LocationListener {
 
@@ -40,10 +44,27 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     private GoogleApiClient mGoogleApiClient;
     private final int PERMISSION_LOCATION = 111;
     private ArrayList<DailyWeatherReport> weatherReportList = new ArrayList<>();
+
+    private ImageView weatherIcon;
+    private ImageView weatherIconMini;
+    private TextView weatherDate;
+    private TextView currentTemp;
+    private TextView lowTemp;
+    private TextView cityCountry;
+    private TextView weatherDescription;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
+
+        weatherIcon = (ImageView)findViewById(R.id.weatherIcon);
+        weatherIconMini = (ImageView)findViewById(R.id.weatherIconMini);
+        weatherDate = (TextView)findViewById(R.id.weatherDate);
+        currentTemp = (TextView)findViewById(R.id.currentTemp);
+        lowTemp = (TextView)findViewById(R.id.lowTemp);
+        cityCountry = (TextView)findViewById(R.id.cityCountry);
+        weatherDescription = (TextView)findViewById(R.id.weatherDescription);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
@@ -92,6 +113,8 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
                 } catch (Exception e){
 
                 }
+
+                updateUI();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -101,6 +124,44 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
         });
 
         Volley.newRequestQueue(this).add(jsonRequest);
+    }
+
+    public void updateUI() {
+
+        if(weatherReportList.size() > 0){
+            DailyWeatherReport report = weatherReportList.get(0);
+
+            switch (report.getWeather()){
+
+                case DailyWeatherReport.WEATHER_TYPE_CLOUDS:
+                    weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.cloudy));
+                    weatherIconMini.setImageDrawable(getResources().getDrawable(R.drawable.cloudy));
+                    break;
+
+                case DailyWeatherReport.WEATHER_TYPE_RAIN:
+                    weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.rainy));
+                    weatherIconMini.setImageDrawable(getResources().getDrawable(R.drawable.rainy));
+                    break;
+
+                case DailyWeatherReport.WEATHER_TYPE_SNOW:
+                    weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.snow));
+                    weatherIconMini.setImageDrawable(getResources().getDrawable(R.drawable.snow));
+                    break;
+
+                default:
+                    weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.sunny));
+            }
+
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy");
+            String formattedDate = df.format(c.getTime());
+
+            weatherDate.setText(formattedDate.toString());
+            currentTemp.setText(Integer.toString(report.getCurrentTemp())+"°");
+            lowTemp.setText(Integer.toString(report.getMinTemp())+"°");
+            cityCountry.setText(report.getCityName() + ", " + report.getCountry());
+            weatherDescription.setText(report.getWeather());
+        }
     }
 
     @Override
