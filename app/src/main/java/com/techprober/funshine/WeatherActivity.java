@@ -23,19 +23,23 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.techprober.funshine.model.DailyWeatherReport;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class WeatherActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, LocationListener {
 
     final String URL_BASE = "http://api.openweathermap.org/data/2.5/forecast";
-    final String URL_COORD = "?lat=";//"/?lat=9.9687&lon=76.299";
+    final String URL_COORD = "?lat=";
     final String URL_UNITS = "&units=metric";
     final String API_KEY = "&APPID=7127ba644a3ef6ad20d80eecbe583ca0";
 
     private GoogleApiClient mGoogleApiClient;
     private final int PERMISSION_LOCATION = 111;
-
+    private ArrayList<DailyWeatherReport> weatherReportList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,14 +53,45 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
                 .build();
     }
 
-    public void downloadWeatherData() {
-        final String url = URL_BASE + URL_COORD + URL_UNITS + API_KEY;
+    public void downloadWeatherData(Location location) {
+        final String fullCoords = URL_COORD + location.getLatitude() + "&lon=" + location.getLongitude();
+        final String url = URL_BASE + fullCoords + URL_UNITS + API_KEY;
 
         JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
-                Log.v("FUN", "RES: " + response.toString());
+                try {
+
+                    Log.v("Response", "RES" + response);
+
+                    JSONObject city = response.getJSONObject("city");
+                    String cityName = city.getString("name");
+                    String country = city.getString("country");
+
+                    JSONArray list = response.getJSONArray("list");
+
+                    for (int x = 0; x < 5; x++){
+                        JSONObject obj = list.getJSONObject(x);
+                        JSONObject main = obj.getJSONObject("main");
+                        Double currentTemp = main.getDouble("temp");
+                        Double maxTemp = main.getDouble("temp_max");
+                        Double minTemp = main.getDouble("temp_min");
+
+                        JSONArray weatherArr = obj.getJSONArray("weather");
+                        JSONObject weather = weatherArr.getJSONObject(0);
+                        String weatherType = weather.getString("main");
+
+                        String rawDate = obj.getString("dt_txt");
+
+                        DailyWeatherReport report = new DailyWeatherReport(cityName, rawDate, country, currentTemp.intValue(), maxTemp.intValue(), minTemp.intValue(), weatherType);
+
+                        weatherReportList.add(report);
+                    }
+
+                } catch (Exception e){
+
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -70,7 +105,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
     @Override
     public void onLocationChanged(Location location) {
-
+        downloadWeatherData(location);
     }
 
     @Override
