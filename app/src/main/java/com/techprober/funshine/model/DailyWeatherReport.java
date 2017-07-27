@@ -1,5 +1,10 @@
 package com.techprober.funshine.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class DailyWeatherReport {
 
     public static final String WEATHER_TYPE_CLOUDS = "Clouds";
@@ -27,7 +32,19 @@ public class DailyWeatherReport {
     }
 
     public String rawDateToFormatted(String rawDate){
-        return "May 1";
+
+        String dt_txt = rawDate;
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            date = fmt.parse(dt_txt);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        SimpleDateFormat fmtOut = new SimpleDateFormat("dd MMM, yyyy");
+        String newFormat =  fmtOut.format(date);
+        return newFormat;
     }
 
     public String getCityName() {

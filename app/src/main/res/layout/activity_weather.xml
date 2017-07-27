@@ -4,10 +4,6 @@
     android:id="@+id/activity_weather"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.techprober.funshine.WeatherActivity"
     android:background="#499EEC"
     android:orientation="vertical">
@@ -52,20 +48,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="bottom">
+            android:gravity="bottom"
+            android:weightSum="7">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="80dp"
+                android:textSize="70dp"
                 android:text="0°"
                 android:textColor="#FFFFFF"
-                android:id="@+id/currentTemp"/>
+                android:id="@+id/currentTemp"
+                android:layout_weight="3"
+                android:gravity="center_horizontal"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="28dp"
+                android:textSize="22dp"
                 android:text="0°"
                 android:padding="2dp"
                 android:textColor="#ffffff"
@@ -76,38 +75,47 @@
                 android:layout_height="130dp"
                 android:src="@drawable/sunny"
                 android:id="@+id/weatherIcon"
-                android:paddingLeft="10dp"/>
+                android:paddingLeft="10dp"
+                android:layout_weight="2"/>
 
         </LinearLayout>
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="7">
 
-    <LinearLayout
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Karachi, PK"
+                android:textSize="16dp"
+                android:layout_weight="3"
+                android:gravity="center_horizontal"
+                android:textColor="#ffffff"
+                android:id="@+id/cityCountry"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clear"
+                android:textSize="16dp"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:textColor="#ffffff"
+                android:id="@+id/weatherDescription"/>
+
+        </LinearLayout>
+        
+    </LinearLayout>
+    
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="7">
+        android:id="@+id/content_weather_reports"
+        android:paddingTop="8dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Karachi, PK"
-            android:textSize="16dp"
-            android:layout_weight="3"
-            android:gravity="center_horizontal"
-            android:textColor="#ffffff"
-            android:id="@+id/cityCountry"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Clear"
-            android:textSize="16dp"
-            android:layout_weight="2"
-            android:gravity="center_horizontal"
-            android:textColor="#ffffff"
-            android:id="@+id/weatherDescription"/>
-
-    </LinearLayout>
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>
