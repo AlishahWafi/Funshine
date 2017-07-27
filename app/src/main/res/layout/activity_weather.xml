@@ -43,7 +43,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Today, May 1"
+            android:text="Date"
             android:textSize="25dp"
             android:textColor="#ffffff"
             android:id="@+id/weatherDate"/>
@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="80dp"
-                android:text="78°"
+                android:text="0°"
                 android:textColor="#FFFFFF"
                 android:id="@+id/currentTemp"/>
 
@@ -66,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="28dp"
-                android:text="64"
+                android:text="0°"
                 android:padding="2dp"
                 android:textColor="#ffffff"
                 android:id="@+id/lowTemp"/>
